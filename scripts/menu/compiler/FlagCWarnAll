@@ -1,0 +1,17 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+config FLAG_C_WARNING_ALL
+  bool "-Wall"
+  default y
+  help
+    This enables all the warnings about constructions that some users consider
+    questionable, and that are easy to avoid (or modify to prevent the warning),
+    even in conjunction with macros
+
+config C_WARNING_ALL
+  string
+    default "-Wall" if FLAG_C_WARNING_ALL && y
+
+###############################################################################

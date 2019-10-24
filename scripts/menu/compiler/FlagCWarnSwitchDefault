@@ -1,0 +1,15 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+config FLAG_C_WARNING_SWITCH_DEFAULT
+  bool "-Wswitch-default"
+  default n
+  help
+    Warn whenever a switch statement does not have a default case
+
+config C_WARNING_SWITCH_DEFAULT
+  string
+    default "-Wswitch-default" if FLAG_C_WARNING_SWITCH_DEFAULT && y
+
+###############################################################################

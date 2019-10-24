@@ -1,0 +1,16 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+config FLAG_C_WARNING_SWITCH_ENUM
+  bool "-Wswitch-enum"
+  default y
+  help
+    Warn whenever a switch statement has an index of enumerated type and lacks
+    a case for one or more of the named codes of that enumeration
+
+config C_WARNING_SWITCH_ENUM
+  string
+    default "-Wswitch-enum" if FLAG_C_WARNING_SWITCH_ENUM && y
+
+###############################################################################

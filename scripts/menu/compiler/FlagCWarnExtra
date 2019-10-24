@@ -1,0 +1,15 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+config FLAG_C_WARNING_EXTRA
+  bool "-Wextra"
+  default y
+  help
+    This enables some extra warning flags that are not enabled by -Wall
+
+config C_WARNING_EXTRA
+  string
+    default "-Wextra" if FLAG_C_WARNING_EXTRA && y
+
+###############################################################################

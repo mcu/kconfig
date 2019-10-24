@@ -1,0 +1,32 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+mainmenu "MCU App Configuration"
+
+  menu "Application"
+
+  endmenu
+
+  menu "Compiler"
+    source "scripts/menu/compiler/ChoiceCDebugLevel"
+    source "scripts/menu/compiler/ChoiceCLanguageStandard"
+    source "scripts/menu/compiler/ChoiceCOptimizationLevel"
+    source "scripts/menu/compiler/FlagCDataSections"
+    source "scripts/menu/compiler/FlagCFunctionSections"
+    source "scripts/menu/compiler/FlagCStackUsage"
+    source "scripts/menu/compiler/FlagCWarnAll"
+    source "scripts/menu/compiler/FlagCWarnError"
+    source "scripts/menu/compiler/FlagCWarnExtra"
+    source "scripts/menu/compiler/FlagCWarnNoUnusedParameter"
+    source "scripts/menu/compiler/FlagCWarnSwitchDefault"
+    source "scripts/menu/compiler/FlagCWarnSwitchEnum"
+    source "scripts/menu/compiler/FlagUsePrintfFloat"
+    source "scripts/menu/compiler/FlagUseScanfFloat"
+  endmenu
+
+  menu "Components"
+
+  endmenu
+
+###############################################################################

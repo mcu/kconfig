@@ -1,0 +1,35 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+choice C_DEBUG_LEVEL
+  prompt "C Debug Level"
+  default C_DEBUG_LEVEL_3
+  help
+    -g  Debug information depend on OS (stabs, COFF, XCOFF or DWARF)
+    -g0 No debug information
+    -g1 Minimal debug information
+    -g3 Maximum debug information
+
+  config C_DEBUG_LEVEL_DEPEND_ON_OS
+    bool "-g Dep on OS"
+
+  config C_DEBUG_LEVEL_0
+    bool "-g0 No"
+
+  config C_DEBUG_LEVEL_1
+    bool "-g1 Min"
+
+  config C_DEBUG_LEVEL_3
+    bool "-g3 Max"
+
+endchoice
+
+config C_DEBUG_LEVEL
+  string
+    default "-g" if C_DEBUG_LEVEL_DEPEND_ON_OS
+    default "-g0" if C_DEBUG_LEVEL_0
+    default "-g1" if C_DEBUG_LEVEL_1
+    default "-g3" if C_DEBUG_LEVEL_3
+
+###############################################################################

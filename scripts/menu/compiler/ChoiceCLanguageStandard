@@ -1,0 +1,38 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+choice C_LANGUAGE_STANDARD
+  prompt "C Language Standard"
+  default STD_C11
+
+  config STD_C90
+    bool "c90"
+
+  config STD_GNU90
+    bool "gnu90"
+
+  config STD_C99
+    bool "c99"
+
+  config STD_GNU99
+    bool "gnu99"
+
+  config STD_C11
+    bool "c11"
+
+  config STD_GNU11
+    bool "gnu11"
+
+endchoice
+
+config C_LANGUAGE_STANDARD
+  string
+    default "c90" if STD_C90
+    default "c99" if STD_C99
+    default "c11" if STD_C11
+    default "gnu90" if STD_GNU90
+    default "gnu99" if STD_GNU99
+    default "gnu11" if STD_GNU11
+
+###############################################################################

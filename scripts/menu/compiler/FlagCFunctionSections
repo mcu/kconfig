@@ -1,0 +1,15 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+config FLAG_C_FUNCTION_SECTIONS
+  bool "-ffunction-sections"
+  default y
+  help
+    Place functions in their own sections
+
+config C_FUNCTION_SECTIONS
+  string
+    default "-ffunction-sections" if FLAG_C_FUNCTION_SECTIONS && y
+
+###############################################################################

@@ -1,0 +1,15 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+config FLAG_USE_SCANF_FLOAT
+  bool "-u_scanf_float"
+  default n
+  help
+    Use float with scanf from newlib-nano
+
+config USE_SCANF_FLOAT
+  string
+    default "-u_scanf_float" if FLAG_USE_SCANF_FLOAT && y
+
+###############################################################################

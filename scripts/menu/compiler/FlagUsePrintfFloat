@@ -1,0 +1,15 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+config FLAG_USE_PRINTF_FLOAT
+  bool "-u_printf_float"
+  default y
+  help
+    Use float with printf from newlib-nano
+
+config USE_PRINTF_FLOAT
+  string
+    default "-u_printf_float" if FLAG_USE_PRINTF_FLOAT && y
+
+###############################################################################

@@ -1,0 +1,15 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+config FLAG_C_WARNING_ERROR
+  bool "-Werror"
+  default n
+  help
+    Make all warnings into errors
+
+config C_WARNING_ERROR
+  string
+    default "-Werror" if FLAG_C_WARNING_ERROR && y
+
+###############################################################################

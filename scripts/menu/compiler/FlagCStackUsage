@@ -1,0 +1,16 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+config FLAG_C_STACK_USAGE
+  bool "-fstack-usage"
+  default y
+  help
+    A unit compiled with -fstack-usage will generate an extra file that
+    specifies the maximum amount of stack used, on a per-function basis
+
+config C_STACK_USAGE
+  string
+    default "-fstack-usage" if FLAG_C_STACK_USAGE && y
+
+###############################################################################

@@ -1,0 +1,45 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+choice C_OPTIMIZATION_LEVEL
+  prompt "C Optimization Level"
+  default C_OPTIMIZATION_LEVEL_0
+  help
+    -Og Standard edit-compile-debug cycle
+    -O0 Without optimization
+    -O1 Compiler tries to reduce code size and execution time
+    -O2 Compiler performs nearly all supported optimizations
+    -O3 Turn on all optimizations
+    -Os Optimize for size
+
+  config C_OPTIMIZATION_LEVEL_G
+    bool "-Og"
+
+  config C_OPTIMIZATION_LEVEL_0
+    bool "-O0"
+
+  config C_OPTIMIZATION_LEVEL_1
+    bool "-O1"
+
+  config C_OPTIMIZATION_LEVEL_2
+    bool "-O2"
+
+  config C_OPTIMIZATION_LEVEL_3
+    bool "-O3"
+
+  config C_OPTIMIZATION_LEVEL_S
+    bool "-Os"
+
+endchoice
+
+config C_OPTIMIZATION_LEVEL
+  string
+    default "-Og" if C_OPTIMIZATION_LEVEL_G
+    default "-O0" if C_OPTIMIZATION_LEVEL_0
+    default "-O1" if C_OPTIMIZATION_LEVEL_1
+    default "-O2" if C_OPTIMIZATION_LEVEL_2
+    default "-O3" if C_OPTIMIZATION_LEVEL_3
+    default "-Os" if C_OPTIMIZATION_LEVEL_S
+
+###############################################################################

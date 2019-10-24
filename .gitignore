@@ -1,0 +1,14 @@
+build
+.settings
+.cproject
+.project
+.config
+.config.old
+
+scripts/basic/*.cmd
+scripts/kconfig/*.o
+scripts/kconfig/lxdialog/*.o
+scripts/kconfig/lxdialog/*.cmd
+scripts/kconfig/*.cmd
+scripts/kconfig/lexer.lex.c
+scripts/kconfig/parser.tab.*

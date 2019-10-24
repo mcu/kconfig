@@ -1,0 +1,16 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+config FLAG_C_WARNING_NO_UNUSED_PARAMETER
+  bool "-Wno-unused-parameter"
+  default y
+  help
+    Turn off warn whenever a function parameter is unused aside from its
+    declaration
+
+config C_WARNING_NO_UNUSED_PARAMETER
+  string
+    default "-Wno-unused-parameter" if FLAG_C_WARNING_NO_UNUSED_PARAMETER && y
+
+###############################################################################

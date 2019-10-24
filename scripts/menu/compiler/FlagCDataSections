@@ -1,0 +1,15 @@
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+config FLAG_C_DATA_SECTIONS
+  bool "-fdata-sections"
+  default y
+  help
+    Place data in their own sections
+
+config C_DATA_SECTIONS
+  string
+    default "-fdata-sections" if FLAG_C_DATA_SECTIONS && y
+
+###############################################################################
