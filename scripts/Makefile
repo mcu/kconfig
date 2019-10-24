@@ -69,11 +69,9 @@ fixdep:
 	@$(MAKE) $(build)=scripts/basic
 	@rm -f .tmp_quiet_recordmcount
 
-config: fixdep force
-	@$(MAKE) $(build)=scripts/kconfig $@
-
 %config: fixdep force
 	@$(MAKE) $(build)=scripts/kconfig $@
+	@$(MAKE) $(build)=scripts/kconfig syncconfig
 
 PHONY += clean
 clean:
