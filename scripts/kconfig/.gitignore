@@ -3,6 +3,10 @@
 #
 *.moc
 *conf-cfg
+*.o
+*.cmd
+lexer.lex.c
+parser.tab.*
 
 #
 # configuration programs
