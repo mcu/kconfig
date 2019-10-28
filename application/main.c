@@ -19,7 +19,7 @@ void BlinkLedTask(void *parameters)
   {
     HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_12);
 
-    vTaskDelay(pdMS_TO_TICKS(1000));
+    vTaskDelay(pdMS_TO_TICKS(CONFIG_APP_BLINK_LED_DELAY));
   }
   vTaskDelete(NULL);
 }
