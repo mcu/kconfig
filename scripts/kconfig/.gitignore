@@ -5,6 +5,7 @@
 *conf-cfg
 *.o
 *.cmd
+*.tmp
 lexer.lex.c
 parser.tab.*
 
