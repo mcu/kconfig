@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 ###############################################################################
 
-.PHONY: all build menuconfig clean
+.PHONY: all build menuconfig check clean
 
 -include .config
 
@@ -96,7 +96,7 @@ build: $(OUTDIR)/$(PROJNAME).elf \
 # Rebuild project if Makefile changed
 $(OBJECTS): $(firstword $(MAKEFILE_LIST))
 
-$(OUTDIR)/$(PROJNAME).elf: $(OBJECTS)
+$(OUTDIR)/$(PROJNAME).elf: $(OBJECTS) | check
 	@echo linker: $@
 	@$(CC) $(LDFLAGS) -o $@ $^ $(LIBDIRS) $(LIBS)
 
@@ -119,6 +119,9 @@ $(OUTDIR)/%.o: %.c
 
 menuconfig:
 	@$(MAKE) -f scripts/Makefile $@
+
+check:
+	@cppcheck --force --quiet --template=gcc -icubemx application
 
 clean:
 	@$(MAKE) -f scripts/Makefile $@
