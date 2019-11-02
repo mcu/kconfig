@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 ###############################################################################
 
-.PHONY: all build menuconfig check clean
+.PHONY: all build menuconfig check cloc clean
 
 -include .config
 
@@ -121,7 +121,10 @@ menuconfig:
 	@$(MAKE) -f scripts/Makefile $@
 
 check:
-	@cppcheck --force --quiet --template=gcc -icubemx application
+	@cppcheck --force --quiet -icubemx application
+
+cloc:
+	@cloc --quiet --exclude-dir=cubemx application
 
 clean:
 	@$(MAKE) -f scripts/Makefile $@

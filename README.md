@@ -11,7 +11,8 @@ Development environment consists of:
  * STM32CubeIDE
  * STM32CubeMX
  * STM32CubeProg
- * cppcheck
+ * [Cppcheck](https://github.com/danmar/cppcheck.git)
+ * [Cloc](https://github.com/AlDanial/cloc.git)
 
 ## Get GNU Arm Embedded Toolchain
 
