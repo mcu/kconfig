@@ -10,9 +10,6 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-void SystemClock_Config();
-void MX_GPIO_Init();
-
 void BlinkLedTask(void *parameters)
 {
   for(;;)
@@ -24,12 +21,8 @@ void BlinkLedTask(void *parameters)
   vTaskDelete(NULL);
 }
 
-int main()
+void app_main()
 {
-  HAL_Init();
-  SystemClock_Config();
-  MX_GPIO_Init();
-
   BaseType_t status = xTaskCreate(BlinkLedTask, "BlinkLed", 256, NULL, 4, NULL);
   if(status != pdPASS)
   {
