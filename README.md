@@ -2,7 +2,7 @@
 
 This example provides the ability to configure components and application
 using kconfig language
-![](documents/screenshots/0Menuconfig.png)
+![](scripts/menu/menuconfig.png)
 Originally created for STM32 microcontrollers but it can be used for any ARM
 based MCUs
 
@@ -13,6 +13,12 @@ Development environment consists of:
  * STM32CubeProg
  * [Cppcheck](https://github.com/danmar/cppcheck.git)
  * [Cloc](https://github.com/AlDanial/cloc.git)
+
+## Install
+
+```bash
+  sudo apt install bison flex
+```
 
 ## Get GNU Arm Embedded Toolchain
 
