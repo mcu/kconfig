@@ -24,7 +24,7 @@ void BlinkLedTask(void *parameters)
 void app_main()
 {
   BaseType_t status = xTaskCreate(BlinkLedTask, "BlinkLed", 256, NULL, 4, NULL);
-  if(status != pdPASS)
+  if(status == pdFAIL)
   {
     for(;;);
   }
