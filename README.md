@@ -63,9 +63,7 @@ You can add *.h, *.c files and folders as you want into "components",
 
 ## For advanced developers
 
-```bash
-  https://github.com/mcu/kconfig-libs
-```
+https://github.com/mcu/kconfig-libs
 
 ## Comment
 
