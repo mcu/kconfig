@@ -61,6 +61,12 @@ libraries
 You can add *.h, *.c files and folders as you want into "components",
 "application" folders. All source files will be compiled
 
+## For advanced developers
+
+```bash
+  https://github.com/mcu/kconfig-libs
+```
+
 ## Comment
 
 The implementation of makefile has its pros and cons. Since all header files
