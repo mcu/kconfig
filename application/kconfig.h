@@ -5,7 +5,6 @@
  *
  */
 #define CONFIG_C_OPTIMIZATION_LEVEL "-O0"
-#define CONFIG_FLAG_USE_PRINTF_FLOAT 1
 #define CONFIG_C_WARNING_SWITCH_ENUM "-Wswitch-enum"
 #define CONFIG_C_DEBUG_LEVEL "-g3"
 #define CONFIG_FLAG_C_STACK_USAGE 1
@@ -14,7 +13,6 @@
 #define CONFIG_FLAG_C_WARNING_EXTRA 1
 #define CONFIG_C_WARNING_ALL "-Wall"
 #define CONFIG_C_DATA_SECTIONS "-fdata-sections"
-#define CONFIG_USE_PRINTF_FLOAT "-u_printf_float"
 #define CONFIG_FLAG_C_WARNING_SWITCH_ENUM 1
 #define CONFIG_FREERTOS_TICK_RATE_HZ 1000
 #define CONFIG_C_FUNCTION_SECTIONS "-ffunction-sections"
