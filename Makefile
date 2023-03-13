@@ -2,36 +2,37 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 ###############################################################################
 
-.PHONY: all build menuconfig check cloc clean
+.PHONY: all build cubemx application menuconfig check cloc clean
 
 -include .config
 
 OUTDIR = build
-
+CBMXDIR = application/cubemx
 DEFINITIONS = -DDEBUG \
-              -DSTM32F1 \
-              -DSTM32F103 \
               -DSTM32F103xB \
-              -DUSE_HAL_DRIVER \
-              -DHSE_VALUE=8000000 \
-              -D__weak="__attribute__((weak))" \
-              -D__packed="__attribute__((__packed__))"
+              -DUSE_HAL_DRIVER
 
 ###############################################################################
 
 PROJNAME := $(notdir $(shell pwd))
-FOLDERS  := $(shell ls -R components application | grep : | sed 's/://')
+DIRS := $(shell ls -R components application -Icubemx | grep : | sed 's/://')
 
-ASSOURCES := $(wildcard $(addsuffix /*.s, $(FOLDERS)))
-CSOURCES  := $(wildcard $(addsuffix /*.c, $(FOLDERS)))
+CBMXDIRS := $(shell ls -R $(CBMXDIR) | grep : | sed 's/://')
+CBMXASRC := $(wildcard $(addsuffix /*.s, $(CBMXDIR)))
+CBMXOBJS := $(wildcard $(addsuffix /*.o, $(CBMXDIRS)))
+CBMXLD := $(wildcard $(addsuffix /*.ld, $(CBMXDIR)))
 
-OBJECTS := $(addprefix $(OUTDIR)/, $(ASSOURCES:.s=.o))
-OBJECTS += $(addprefix $(OUTDIR)/, $(CSOURCES:.c=.o))
+APPLASRC := $(wildcard $(addsuffix /*.s, $(DIRS)))
+APPLCSRC := $(wildcard $(addsuffix /*.c, $(DIRS)))
+APPLLIBS := $(wildcard $(addsuffix /*.a, $(DIRS)))
+APPLOBJS := $(addprefix $(OUTDIR)/, $(APPLASRC:.s=.o))
+APPLOBJS += $(addprefix $(OUTDIR)/, $(APPLCSRC:.c=.o))
 
-HEADERS := $(addprefix -I", $(addsuffix ", $(FOLDERS)))
-LINKERS := $(addprefix -T", $(addsuffix ", $(wildcard $(addsuffix /*.ld, $(FOLDERS)))))
-LIBDIRS := $(addprefix -L", $(addsuffix ", $(dir $(wildcard $(addsuffix /*.a, $(FOLDERS))))))
-LIBS    := $(addprefix -l, $(subst lib, , $(subst .a, , $(notdir $(wildcard $(addsuffix /*.a, $(FOLDERS)))))))
+HEADERS := $(addprefix -I", $(addsuffix ", $(DIRS)))
+HEADERS += $(addprefix -I", $(addsuffix ", $(CBMXDIRS)))
+LINKERS := $(addprefix -T", $(addsuffix ", $(CBMXLD)))
+LIBDIRS := $(addprefix -L", $(addsuffix ", $(dir $(APPLLIBS))))
+LIBS    := $(addprefix -l, $(subst lib, , $(subst .a, , $(notdir $(APPLLIBS)))))
 
 ###############################################################################
 
@@ -39,7 +40,7 @@ LIBS    := $(addprefix -l, $(subst lib, , $(subst .a, , $(notdir $(wildcard $(ad
 OBJCOPY = arm-none-eabi-objcopy
    SIZE = arm-none-eabi-size
 
-CPU = $(word 2, $(shell grep ".cpu" $(ASSOURCES)))
+CPU = $(word 2, $(shell grep ".cpu" $(CBMXASRC)))
 
 CORE = -mcpu=$(CPU) -mthumb -mfloat-abi=soft
 
@@ -51,7 +52,7 @@ OPTIMIZATION = $(subst ",,$(CONFIG_C_OPTIMIZATION_LEVEL)) \
 FLAGS = $(subst ",,$(CONFIG_USE_PRINTF_FLOAT)) \
         $(subst ",,$(CONFIG_USE_SCANF_FLOAT))
 
-ASFLAGS = $(CORE) -g -x assembler-with-cpp -specs=nano.specs
+ASFLAGS = $(CORE) -x assembler-with-cpp
 
 CFLAGS =  $(CORE) \
           $(FLAGS) \
@@ -85,20 +86,22 @@ MAKEFLAGS += -j --no-print-directory
 
 ###############################################################################
 
-all:
-	@test -f .config || $(MAKE) -f scripts/Makefile menuconfig
-	@$(MAKE) -f Makefile build
+all: build
+build: application
+application: cubemx
+application: $(OUTDIR)/$(PROJNAME).elf \
+             $(OUTDIR)/$(PROJNAME).bin \
+             $(OUTDIR)/$(PROJNAME).siz
 
-build: $(OUTDIR)/$(PROJNAME).elf \
-       $(OUTDIR)/$(PROJNAME).bin \
-       $(OUTDIR)/$(PROJNAME).siz
+cubemx:
+	@cd $(CBMXDIR) && $(MAKE) -s
 
 # Rebuild project if Makefile changed
-$(OBJECTS): $(firstword $(MAKEFILE_LIST))
+$(APPLOBJS): $(firstword $(MAKEFILE_LIST))
 
-$(OUTDIR)/$(PROJNAME).elf: $(OBJECTS)
+$(OUTDIR)/$(PROJNAME).elf: $(APPLOBJS)
 	@echo linker: $@
-	@$(CC) $(LDFLAGS) -o $@ $^ $(LIBDIRS) $(LIBS)
+	@$(CC) $(LDFLAGS) $(CBMXOBJS) $(APPLOBJS) $(LIBDIRS) $(LIBS) -o $@
 
 $(OUTDIR)/$(PROJNAME).bin: $(OUTDIR)/$(PROJNAME).elf
 	@echo binary: $@
@@ -127,10 +130,9 @@ cloc:
 	@cloc --quiet --exclude-dir=cubemx application
 
 clean:
-	@$(MAKE) -f scripts/Makefile $@
 	rm -rf $(OUTDIR)
 
 # Dependencies
--include $(OBJECTS:.o=.d)
+-include $(APPLOBJS:.o=.d)
 
 ###############################################################################
