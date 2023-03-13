@@ -96,7 +96,7 @@ build: $(OUTDIR)/$(PROJNAME).elf \
 # Rebuild project if Makefile changed
 $(OBJECTS): $(firstword $(MAKEFILE_LIST))
 
-$(OUTDIR)/$(PROJNAME).elf: $(OBJECTS) | check
+$(OUTDIR)/$(PROJNAME).elf: $(OBJECTS)
 	@echo linker: $@
 	@$(CC) $(LDFLAGS) -o $@ $^ $(LIBDIRS) $(LIBS)
 
