@@ -3,30 +3,28 @@
 ******************************************************************************/
 
 #include "kconfig.h"
-
-#include "stm32f103xb.h"
-#include "stm32f1xx_hal.h"
-
 #include "FreeRTOS.h"
 #include "task.h"
+#include "main.h"
 
-void BlinkLedTask(void *parameters)
+void blink_led_task(void *parameters)
 {
   for(;;)
   {
-    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_12);
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 
     vTaskDelay(pdMS_TO_TICKS(CONFIG_APP_BLINK_LED_DELAY));
   }
+
   vTaskDelete(NULL);
 }
 
-void app_main()
+void application()
 {
-  BaseType_t status = xTaskCreate(BlinkLedTask, "BlinkLed", 256, NULL, 4, NULL);
+  BaseType_t status = xTaskCreate(blink_led_task, "LED", 256, NULL, 4, NULL);
   if(status == pdFAIL)
   {
-    for(;;);
+    HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
   }
 
   vTaskStartScheduler();
