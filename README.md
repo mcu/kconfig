@@ -26,7 +26,7 @@ Development environment consists of:
 ```bash
   sudo apt install gcc-arm-none-eabi
 ```
-```bash
+```
   arm-none-eabi-gcc --version
 ```
 
@@ -46,11 +46,12 @@ Log out and log back in to update PATH variable
 ```bash
   git clone https://github.com/mcu/kconfig.git
 ```
-```bash
+```
   cd kconfig
   make menuconfig
   make
-```bash
+```
+```
   make clean
   make -f scripts/Makefile clean
 ```
