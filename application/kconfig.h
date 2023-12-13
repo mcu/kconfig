@@ -1,8 +1,6 @@
 /*
- *
  * Automatically generated file; DO NOT EDIT.
  * MCU App Configuration
- *
  */
 #define CONFIG_C_OPTIMIZATION_LEVEL "-O0"
 #define CONFIG_C_WARNING_SWITCH_ENUM "-Wswitch-enum"

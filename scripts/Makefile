@@ -1,9 +1,14 @@
-# SPDX-License-Identifier: GPL-2.0
-VERSION = 5
-PATCHLEVEL = 3
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
+
+.PHONY: fixdep %config clean force
+
+VERSION = 6
+PATCHLEVEL = 2
 SUBLEVEL = 0
 EXTRAVERSION =
-NAME = Bobtail Squid
+NAME = Hurr durr I'ma ninja sloth
 
 KBUILD_VERBOSE = 0
 quiet = quiet_
@@ -18,10 +23,12 @@ include scripts/Kbuild.include
 
 KCONFIG_CONFIG = .config
 KCONFIG_AUTOHEADER = application/kconfig.h
-KCONFIG_AUTOCONFIG = build/include/config/auto.conf
-KCONFIG_TRISTATE = build/include/config/tristate.conf
+KCONFIG_AUTOCONFIG = scripts/include/config/auto.conf
+KCONFIG_TRISTATE = scripts/include/config/tristate.conf
+KCONFIG_RUSTCCFG = scripts/include/generated/rustc_cfg
 
-export KCONFIG_CONFIG KCONFIG_AUTOHEADER KCONFIG_AUTOCONFIG KCONFIG_TRISTATE
+export KCONFIG_CONFIG KCONFIG_AUTOHEADER KCONFIG_AUTOCONFIG \
+       KCONFIG_TRISTATE KCONFIG_RUSTCCFG
 
 # SHELL used by kbuild
 CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
@@ -30,33 +37,35 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = gcc
 HOSTCXX      = g++
-HOSTCFLAGS   = -Wall -O2 -fomit-frame-pointer
-HOSTCXXFLAGS = -O2
+HOSTCFLAGS   = -O2 -Wall -Wextra
+HOSTCXXFLAGS = -O2 -Wall -Wextra
 
 export CONFIG_SHELL HOSTCC HOSTCXX HOSTCFLAGS HOSTCXXFLAGS
-
-fixdep:
-	@$(MAKE) $(build)=scripts/basic
-	@rm -f .tmp_quiet_recordmcount
 
 %config: fixdep force
 	@$(MAKE) $(build)=scripts/kconfig $@
 	@$(MAKE) $(build)=scripts/kconfig syncconfig
 
+fixdep:
+	@cd scripts/basic && make
+
 clean:
-	@rm -rf scripts/basic/fixdep
-	@rm -rf scripts/basic/.*.cmd
-	@rm -rf scripts/kconfig/*.o
-	@rm -rf scripts/kconfig/lxdialog/*.o
-	@rm -rf scripts/kconfig/lxdialog/.*.cmd
-	@rm -rf scripts/kconfig/.*.cmd
-	@rm -rf scripts/kconfig/*.tmp
-	@rm -rf scripts/kconfig/conf
-	@rm -rf scripts/kconfig/lexer.lex.c
-	@rm -rf scripts/kconfig/mconf
-	@rm -rf scripts/kconfig/mconf-cfg
-	@rm -rf scripts/kconfig/parser.tab.*
+	@cd scripts/basic && make --no-print-directory clean
+	rm -rf scripts/include
+	rm -rf scripts/kconfig/*.o
+	rm -rf scripts/kconfig/lxdialog/*.o
+	rm -rf scripts/kconfig/lxdialog/.*.cmd
+	rm -rf scripts/kconfig/.*.cmd
+	rm -rf scripts/kconfig/*.tmp
+	rm -rf scripts/kconfig/conf
+	rm -rf scripts/kconfig/lexer.lex.c
+	rm -rf scripts/kconfig/mconf
+	rm -rf scripts/kconfig/mconf-bin
+	rm -rf scripts/kconfig/mconf-cfg
+	rm -rf scripts/kconfig/mconf-cflags
+	rm -rf scripts/kconfig/mconf-libs
+	rm -rf scripts/kconfig/parser.tab.*
 
 force:
 
-.PHONY: fixdep %config clean force
+###############################################################################

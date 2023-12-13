@@ -81,7 +81,7 @@ LDFLAGS = $(CORE) \
           -Wl,--start-group -lc -lm -Wl,--end-group \
           -Wl,--gc-sections -static
 
-MAKEFLAGS += -j --no-print-directory
+MAKEFLAGS += --no-print-directory -j
 
 ###############################################################################
 

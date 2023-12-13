@@ -1,16 +1,21 @@
-# SPDX-License-Identifier: GPL-2.0-only
-###
-# This Makefile lists the most basic programs used during the build process.
-# The programs listed herein are what are needed to do the basic stuff,
-# such as fix file dependencies.
-# This initial step is needed to avoid files to be recompiled
-# when kernel configuration changes (which is what happens when
-# .config is included by main Makefile.
-# ---------------------------------------------------------------------------
-# fixdep: 	 Used to generate dependency information during build process
+###############################################################################
+# SPDX-License-Identifier: GPL-3.0-or-later
+###############################################################################
 
-hostprogs-y	:= fixdep
-always		:= $(hostprogs-y)
+.PHONY: all build fixdep clean
 
-# fixdep is needed to compile other host programs
-$(addprefix $(obj)/,$(filter-out fixdep,$(always))): $(obj)/fixdep
+all: build
+build: fixdep
+fixdep: fixdep.o
+	@gcc '$<' -o '$@'
+
+%.o: %.c
+	@echo '  HOSTCC  scripts/basic/$(@F)'
+	@gcc -c '$<' -o '$@'
+
+clean:
+	rm -rf *.o
+	rm -rf *.cmd
+	rm -rf fixdep
+
+###############################################################################
