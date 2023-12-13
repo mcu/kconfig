@@ -20,6 +20,7 @@ DIRS := $(shell ls -R components application -Icubemx | grep : | sed 's/://')
 CBMXDIRS := $(shell ls -R $(CBMXDIR) | grep : | sed 's/://')
 CBMXASRC := $(wildcard $(addsuffix /*.s, $(CBMXDIR)))
 CBMXLD := $(wildcard $(addsuffix /*.ld, $(CBMXDIR)))
+CBMXOBJS := $(wildcard $(addsuffix /*.o, $(CBMXDIR)/build))
 
 APPLASRC := $(wildcard $(addsuffix /*.s, $(DIRS)))
 APPLCSRC := $(wildcard $(addsuffix /*.c, $(DIRS)))
@@ -86,20 +87,17 @@ MAKEFLAGS += --no-print-directory -j
 ###############################################################################
 
 all: build
-build: application
-application: $(OUTDIR)/$(PROJNAME).elf \
-             $(OUTDIR)/$(PROJNAME).bin \
+build: cubemx application
+cubemx:
+	@cd $(CBMXDIR) && $(MAKE) -j -s
+application: $(OUTDIR)/$(PROJNAME).bin \
              $(OUTDIR)/$(PROJNAME).siz
 
 # Rebuild project if Makefile changed
 $(APPLOBJS): $(firstword $(MAKEFILE_LIST))
 
-cubemx:
-	@cd $(CBMXDIR) && $(MAKE) -j -s
-
-$(OUTDIR)/$(PROJNAME).elf: cubemx $(APPLOBJS)
+$(OUTDIR)/$(PROJNAME).elf: $(APPLOBJS)
 	@echo linker: $@
-	$(eval CBMXOBJS = $(wildcard $(addsuffix /*.o, $(CBMXDIR)/build)))
 	@$(CC) $(LDFLAGS) $(CBMXOBJS) $(APPLOBJS) $(LIBDIRS) $(LIBS) -o $@
 
 $(OUTDIR)/$(PROJNAME).bin: $(OUTDIR)/$(PROJNAME).elf
@@ -132,6 +130,7 @@ clean:
 	rm -rf $(OUTDIR)
 
 # Dependencies
+-include $(CBMXOBJS:.o=.d)
 -include $(APPLOBJS:.o=.d)
 
 ###############################################################################
