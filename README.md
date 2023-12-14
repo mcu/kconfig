@@ -1,11 +1,10 @@
-# Kconfig for ARM based MCUs
+# Kconfig for embedded applications
 
 This example provides the ability to configure components and application
 using kconfig language
 ![](scripts/menu/menuconfig.png)
-Originally created for STM32 Black Pill but it can be used for any ARM
-based MCUs
-<img src="scripts/menu/blackpill.jpeg" width="640" height="245">
+Originally created for STM32 Black Pill but it can be used for any MCU
+![](scripts/menu/blackpill.jpeg)
 
 Development environment consists of:
  * Ubuntu OS
